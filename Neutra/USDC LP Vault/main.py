@@ -1,18 +1,21 @@
+import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackContext, CallbackQueryHandler
 from web3 import Web3
 from getpass import getpass
 
-# Connect to Ethereum node
-w3 = Web3(Web3.HTTPProvider('http://localhost:8545'))  # replace with your node URL
+TELEGRAM_TOKEN = os.environ['Telegram_token']
+
+# Connect to Arbitrum node
+w3 = Web3(Web3.HTTPProvider(os.environ['RPC']))  # replace with your node URL environment variable
 
 # Contract setup
-contract_address = '0x39bab416b63f8d7ffa1d487bd3768ba2dab3330c'  # replace with your contract address
-contract_abi = ''  # replace with your contract ABI
-contract = w3.eth.contract(address=contract_address, abi=contract_abi)
+contract_address = os.environ['Contract Address']  # replace with your contract address environment variable
+# contract_abi = ''  # replace with your contract ABI
+# contract = w3.eth.contract(address=contract_address, abi=contract_abi)
 
 # Telegram bot setup
-updater = Updater(token='YOUR_TELEGRAM_BOT_TOKEN', use_context=True)
+updater = Updater(TELEGRAM_TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 
 def stake(update: Update, context: CallbackContext):
